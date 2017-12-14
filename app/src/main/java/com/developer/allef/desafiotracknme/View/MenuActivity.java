@@ -36,17 +36,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @RuntimePermissions
 public class MenuActivity extends AppCompatActivity {
 
-
-    private TextView mTextMessage;
-    locais loc;
-    ArrayList<locais> array;
-    locais locaisModel;
-    List<locais> dadosLocais;
-    List<locais> dadosRemotos;
-    @BindColor(R.color.preto)
+        @BindColor(R.color.preto)
     int corPreta;
-    Preferencias preferencias;
-    boolean verificaTask;
+
 
 
     @Override
@@ -55,74 +47,12 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
         MenuActivityPermissionsDispatcher.PermissoesWithCheck(MenuActivity.this); // verifica permissoes
 
-//        locaisModel = new locais();
-//        dadosLocais =new ArrayList<>();
-//        dadosRemotos =new ArrayList<>();
-//        loc = new locais();
-//        array = new ArrayList<>();
-//        preferencias = new Preferencias(MenuActivity.this);
-//        verificaTask = preferencias.getexibir()
-// ;
-        mTextMessage =  findViewById(R.id.message);
+        TextView mTextMessage = findViewById(R.id.message);
         mTextMessage.setTextColor(corPreta);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
     }
-
-//    private void requisicaoServidor() {
-//
-//        if(!verificaTask){
-//
-//            Retrofit retrofit = new Retrofit.Builder()
-//                    .baseUrl("http://private-1bbb5d-tracknme1.apiary-mock.com")
-//                    .addConverterFactory(GsonConverterFactory.create()).build();
-//
-//
-//            locaisInterface locaisInterface = retrofit.create(com.developer.allef.tracknme.Interface.locaisInterface.class);
-//
-//            Call<List<locais>> lo = locaisInterface.buscalocais();
-//            lo.enqueue(new Callback<List<locais>>() {
-//                @Override
-//                public void onResponse(Call<List<locais>> call, Response<List<locais>> response) {
-//                    if (response.isSuccessful()) {
-//
-//                        dadosLocais = locais.listAll(locais.class);
-//                        for (locais a : response.body()) {
-//                            boolean flag = false;
-//                            if (dadosLocais.size() == 0) {
-//                                a.save();
-//                            }
-//                            for (locais bb : dadosLocais) {
-//
-//                                if (a.equals(bb)) {
-//                                    flag = true;
-//                                }
-//
-//                            }
-//                            if (!flag) {
-//                                a.save();
-//                            }
-//
-//                        }
-//
-//                        dadosLocais = locais.listAll(locais.class);
-//                    }
-//
-//                }
-//
-//
-//                @Override
-//                public void onFailure(Call<List<locais>> call, Throwable t) {
-//                    Log.d("Allef", "result" + t.getMessage());
-//
-//                }
-//            });
-//        }else {
-//
-//        }
-
-   // }
 
 
     //region verificando permissoes

@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Desafio Trackn Me</string>
     <string name="openmap">Exibir Mapa</string>
-    <string name="title_activity_map">MapActivity</string>
+    <string name="title_activity_map">Track Map</string>
     <string name="mapskey">AIzaSyBswil9HcaXLsmbpIP5XyePKiWSL6RSxGs</string>
+    <string name="SERVERKEY">AIzaSyAVp5CMECXAzGyrVP0A8p-7gZI_EVDNbfA</string>
 
 </resources>

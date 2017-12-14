@@ -12,24 +12,28 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 /**
- * Created by allef on 10/12/2017.
+ * Created by allef on 14/12/2017.
+ * Interface com as rotas a serem buscadas
+ * e a URL Base para requisições
+ *
  */
 
 public interface LocaisInterface {
+    // URL
+    String uriBase = "http://private-1bbb5d-tracknme1.apiary-mock.com";
 
+    // Instancia e configuração da Biblioteca Retrofit
     Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://private-1bbb5d-tracknme1.apiary-mock.com")
+            .baseUrl(uriBase)
             .addConverterFactory(GsonConverterFactory.create()).build();
 
 
-
+    // Definição das rotas e dos parametos a serem buscados na requisição
     @GET("/posicoes")
     Call<List<locais>> buscalocais();
 
     @GET("/posicoes")
-    Call<List<locais>>buscaData(@Query("dateTime") String data);
-
-
+    Call<List<locais>> buscaData(@Query("dateTime") String data);
 
 
 }

@@ -3,6 +3,8 @@ package com.developer.allef.desafiotracknme.Model;
 import com.google.gson.annotations.SerializedName;
 import com.orm.SugarRecord;
 
+import java.util.List;
+
 
 /**
  * Created by allef on 14/12/2017.
@@ -23,10 +25,6 @@ public class locais extends SugarRecord {
     double latitude;
     @SerializedName("longitude")
     private double longitude;
-
-
-
-
 
 
     public locais() {
@@ -81,6 +79,20 @@ public class locais extends SugarRecord {
             return false;
         }
         return data != null ? data.equals(locais.data) : locais.data == null;
+    }
+
+    /**
+     * Metodos staticos que fazem referencias as Operações
+     * Utilizando Sugar Object Relational Mapper
+     */
+    // DELETE
+    public static void limpaBD(){
+        locais.deleteAll(locais.class);
+    }
+    // SELECT
+    public static List<locais> buscaBD(){
+
+        return  locais.listAll(locais.class);
     }
 
 

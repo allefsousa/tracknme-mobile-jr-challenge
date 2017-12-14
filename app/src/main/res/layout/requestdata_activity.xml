@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_map">
+
+    <io.codetail.widget.RevealFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <FrameLayout
+            android:id="@+id/the_awesome_view"
+            android:layout_width="match_parent"
+            android:background="@color/branco"
+            android:layout_height="match_parent"
+            android:visibility="invisible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/colorPrimary"
+                    android:orientation="vertical"
+                    android:padding="50dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Filtrar Vagas"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPrimary"
+                        android:id="@+id/filtroTitulo"
+                        android:textSize="25sp"
+                        android:layout_marginBottom="10dp"
+                        android:textStyle="bold" />
+                    <Switch
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/switchtask"/>
+
+
+                    <DatePicker
+                        android:id="@+id/datePicker10"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="invisible"
+                        android:datePickerMode="spinner"
+                        android:calendarViewShown="false" />
+
+                    <Button
+                        android:id="@+id/the_wonderful_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="invisible"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:layout_weight="0"
+                        android:text="Filtrar"
+                        android:textColor="@color/colorPrimary" />
+
+                </LinearLayout>
+
+        </FrameLayout>
+
+    </io.codetail.widget.RevealFrameLayout>
+
+</FrameLayout>
