@@ -2,10 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.developer.allef.desafiotracknme">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
 
     <application
         android:name="com.orm.SugarApp"
@@ -25,7 +24,7 @@
             </intent-filter>
         </activity>
 
-        <!--Configuracao do Sugar Object Relational Mapping  -->
+        <!-- Configuracao do Sugar Object Relational Mapping -->
         <meta-data
             android:name="DATABASE"
             android:value="tracknme.db" /> <!-- nome Banco de dados -->
@@ -39,6 +38,15 @@
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="com.developer.allef.desafiotracknme.Model" /> <!-- local onde ficara as classe de modelo -->
 
+        <activity
+            android:name=".View.MapActivity"
+            android:label="@string/title_activity_map"
+            android:parentActivityName=".View.MenuActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.developer.allef.desafiotracknme.View.MenuActivity" />
+        </activity>
     </application>
 
 </manifest>
