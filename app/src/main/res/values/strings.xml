@@ -2,5 +2,6 @@
     <string name="app_name">Desafio Trackn Me</string>
     <string name="openmap">Exibir Mapa</string>
     <string name="title_activity_map">MapActivity</string>
+    <string name="mapskey">AIzaSyBswil9HcaXLsmbpIP5XyePKiWSL6RSxGs</string>
 
 </resources>

@@ -2,6 +2,7 @@ package com.developer.allef.desafiotracknme.View;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,12 +13,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.developer.allef.desafiotracknme.R;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 
-public class MapActivity extends AppCompatActivity {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, com.google.android.gms.location.LocationListener{
 
 
-    private int STORAGE_PERMISSION_CODE = 23;
 
+    GoogleMap map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +29,8 @@ public class MapActivity extends AppCompatActivity {
         setContentView(R.layout.activity_map);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        SupportMapFragment fragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map1);
+        fragment.getMapAsync(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -38,4 +44,17 @@ public class MapActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
+        map.getUiSettings().setAllGesturesEnabled(true);
+        map.getUiSettings().setMapToolbarEnabled(true);
+        map.getUiSettings().setMyLocationButtonEnabled(true);
+        map.getUiSettings().setCompassEnabled(true);
+    }
 }

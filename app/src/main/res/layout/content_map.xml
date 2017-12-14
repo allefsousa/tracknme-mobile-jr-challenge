@@ -8,4 +8,13 @@
     tools:context="com.developer.allef.desafiotracknme.View.MapActivity"
     tools:showIn="@layout/activity_map">
 
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/map1"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        tools:layout_editor_absoluteY="8dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:ignore="MissingConstraints" />
+
 </android.support.constraint.ConstraintLayout>
