@@ -19,6 +19,7 @@ import retrofit2.http.Query;
  */
 
 public interface LocaisInterface {
+    //region Retrofit Url
     // URL
     String uriBase = "http://private-1bbb5d-tracknme1.apiary-mock.com";
 
@@ -26,6 +27,7 @@ public interface LocaisInterface {
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(uriBase)
             .addConverterFactory(GsonConverterFactory.create()).build();
+    //endregion
 
 
     // Definição das rotas e dos parametos a serem buscados na requisição

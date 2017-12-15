@@ -12,11 +12,13 @@ import android.content.SharedPreferences;
 
 public class Preferencias {
 
+    //region variaveis
     private Context context; // variavel que recebera o contexto
     private SharedPreferences preferences;
     private final String NOME_ARQUIVO = "tracknme.preferencias"; // nome do arquivo que vai salvar as preferencias
     private final int MODE= 0; // quais aplicativos podem ler suas preferencias
     private SharedPreferences.Editor editor;  // variavel para editar as preferencias;
+    //endregion
 
     private final String CHAVE_INTRO = "task"; // chave
 

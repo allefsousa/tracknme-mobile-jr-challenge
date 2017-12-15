@@ -1,7 +1,9 @@
 package com.developer.allef.desafiotracknme.Presenter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.Toast;
@@ -50,6 +52,7 @@ public class MapPresenter implements MapInterface.Presenter {
     private Preferencias preferencias;
     private FloatingActionButton fabFiltro;
     private View viewFiltro;
+    boolean conexao;
     //endregion
 
 
@@ -72,6 +75,9 @@ public class MapPresenter implements MapInterface.Presenter {
         cc = new ArrayList<>();
         aaa.clear();
         locais.limpaBD();
+        conexao = verificaconexao();
+        if(conexao){
+
 
 
         // Instancia da interface  que possui as Rotas e a URLBase do Serviço
@@ -145,6 +151,11 @@ public class MapPresenter implements MapInterface.Presenter {
 
             }
         });
+        }else {
+            List<locais> l = locais.buscaBD(); // fazendo a busca no banco de dados
+            DesenhaRotas(l, googleMap); // desenhando as rotas logo em seguida
+        }
+
 
 
     }
@@ -268,6 +279,8 @@ public class MapPresenter implements MapInterface.Presenter {
             LimpaAll(BancoAdapter);
             preferencias.salvarDados(false);
         }
+        conexao = verificaconexao();
+        if(conexao){
 
         preferencias.salvarDados(true);
 
@@ -338,10 +351,14 @@ public class MapPresenter implements MapInterface.Presenter {
 
             @Override
             public void onFailure(Call<List<locais>> call, Throwable t) {
-
+                Toast.makeText(activity, "Impossivel Exibir locais!!", Toast.LENGTH_SHORT).show();
             }
         });
-
+        }else {
+            List<locais> l = locais.buscaBD(); // fazendo a busca no Bd
+            DesenhaRotas(l, googleMap); // desenhando as rotas
+            fechaFiltro(viewFiltro, fabFiltro); // fechando o filtro
+        }
 
     }
 
@@ -389,6 +406,20 @@ public class MapPresenter implements MapInterface.Presenter {
                 .start();
         fab.hide();
 
+    }
+
+
+    public boolean verificaconexao(){
+        boolean conectado;
+        ConnectivityManager conectivtyManager = (ConnectivityManager)activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (conectivtyManager.getActiveNetworkInfo() != null
+                && conectivtyManager.getActiveNetworkInfo().isAvailable()
+                && conectivtyManager.getActiveNetworkInfo().isConnected()) {
+            conectado = true;
+        } else {
+            conectado = false;
+        }
+        return conectado;
     }
 
 
