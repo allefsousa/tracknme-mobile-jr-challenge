@@ -1,6 +1,9 @@
 
-
+#### Detalhes da API
 Link da documentação da api no Apiary : https://tracknme1.docs.apiary.io/#
+
+Na Api foram criadas seis localizacões distintas duas na cidade de Franca, uma em Ribeirão Preto, uma em São carlos, uma em Campinas e o ponto final que foi criado na cidade de São paulo.
+As data para consultas sao 12/10/2017,13/10/2017 e 14/10/2017.
 
 
 
