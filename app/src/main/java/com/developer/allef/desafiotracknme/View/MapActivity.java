@@ -6,6 +6,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -40,7 +43,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     locais ll;
     List<LatLng> latLngs;
     DatePicker datePicker;
-    ProgressDialog progressDoalog;
     Switch pesquisaSwitch;
     Button abriFiltro;
     TextView tituloFiltro;
@@ -58,9 +60,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         SupportMapFragment fragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map1);
         fragment.getMapAsync(this);
-        ButterKnife.bind(this); // adiconando referencia do annotation Processor a classe
 
         //region InstanciaDeVariaveis
         mapPresenter = new MapPresenter(MapActivity.this);
@@ -87,6 +89,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
+        //region Estado Switch
+        /**
+         * metodo responsavel por exibir ou nao os dados da view de filtro
+         */
         pesquisaSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -105,7 +111,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             }
         });
+        //endregion
 
+        /**
+         * Metodo responsavel por abrir o filtro para pesquisar as datas
+         */
         abriFiltro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -157,17 +167,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
 
 
-    }
-
-
-    //region Tarefa 2
-    private void ProgressDialogRequest() {
-        progressDoalog = new ProgressDialog(MapActivity.this);
-        progressDoalog.setIndeterminate(true);
-        progressDoalog.setMessage("Aguarde .....");
-        progressDoalog.setTitle("Buscando Dados Atualizados");
-        progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDoalog.show();
     }
 
 

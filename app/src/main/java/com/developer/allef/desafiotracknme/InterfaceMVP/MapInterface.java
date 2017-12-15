@@ -33,7 +33,6 @@ public interface MapInterface {
 
         void LimpaAll(List<locais> locaisList);
 
-        ProgressDialog ProgressDialogRequest();
 
         void abrirFiltro(android.view.View theAwesomeView, FloatingActionButton fab);
     }

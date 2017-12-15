@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.akexorcist.googledirection.DirectionCallback;
 import com.akexorcist.googledirection.GoogleDirection;
@@ -40,6 +41,7 @@ import retrofit2.Response;
 
 public class MapPresenter implements MapInterface.Presenter {
 
+    //region variaveis Globais
     private Info distancia, duracao;
     private Leg leg;
     private double dis = 0;
@@ -50,9 +52,10 @@ public class MapPresenter implements MapInterface.Presenter {
     private Preferencias preferencias;
     private FloatingActionButton fabFiltro;
     private View viewFiltro;
+    //endregion
 
 
-    public MapPresenter(Activity v ) {
+    public MapPresenter(Activity v) {
         this.activity = v;
         fabFiltro = activity.findViewById(R.id.fab);
         viewFiltro = activity.findViewById(R.id.the_awesome_view);
@@ -60,6 +63,13 @@ public class MapPresenter implements MapInterface.Presenter {
 
     }
 
+    /**
+     * TASK 1
+     * metodo responsavel por fazer a busca doaslocais na Api
+     *
+     * @param aaa
+     * @param googleMap
+     */
     public void RequestAllLocais(final List<locais> aaa, final GoogleMap googleMap) {
         cc = new ArrayList<>();
         aaa.clear();
@@ -80,48 +90,51 @@ public class MapPresenter implements MapInterface.Presenter {
              */
             @Override
             public void onResponse(Call<List<locais>> call, Response<List<locais>> response) {
+                if (!response.body().isEmpty()) {
 
-                /**
-                 *Caso a requisição tenha sido executada com sucesso
-                 * e feita a verificação dos dados para impedir que adicione dados repetidos
-                 * ao banco de dados local
-                 */
-                if (response.isSuccessful()) {
+                    /**
+                     *Caso a requisição tenha sido executada com sucesso
+                     * e feita a verificação dos dados para impedir que adicione dados repetidos
+                     * ao banco de dados local
+                     */
+                    if (response.isSuccessful()) {
 
-                    List<locais> lisd = locais.buscaBD(); // Buscando os dados no bd e os atribuindo a uma lista de dados ()
-                    // A consulta nessa etapa seria(Select * from locais)
-                    for (locais a : response.body()) {
-                        boolean flag = false;
-
-                        /**
-                         *  caso a lista seja vazia salvo todos os dados
-                         */
-                        if (lisd.size() == 0) {
-                            a.save();
-                        }
-                        for (locais bb : lisd) {
+                        List<locais> lisd = locais.buscaBD(); // Buscando os dados no bd e os atribuindo a uma lista de dados ()
+                        // A consulta nessa etapa seria(Select * from locais)
+                        for (locais a : response.body()) {
+                            boolean flag = false;
 
                             /**
-                             * faço a comparacao do Objeto recebido com todo o
-                             *  banco local
+                             *  caso a lista seja vazia salvo todos os dados
                              */
-                            if (a.equals(bb)) {
-                                flag = true;
+                            if (lisd.size() == 0) {
+                                a.save();
+                            }
+                            for (locais bb : lisd) {
+
+                                /**
+                                 * faço a comparacao do Objeto recebido com todo o
+                                 *  banco local
+                                 */
+                                if (a.equals(bb)) {
+                                    flag = true;
+                                }
+
                             }
 
+                            /**
+                             * se flag nao mudou de valor nao existe valor igual
+                             */
+                            if (!flag) {
+                                a.save();
+                            }
+
+                            List<locais> l = locais.buscaBD(); // fazendo a busca no banco de dados
+                            DesenhaRotas(l, googleMap); // desenhando as rotas logo em seguida
                         }
 
-                        /**
-                         * se flag nao mudou de valor nao existe valor igual
-                         */
-                        if (!flag) {
-                            a.save();
-                        }
-                        List<locais>l = locais.buscaBD();
-                        DesenhaRotas(l,googleMap);
+
                     }
-
-
                 }
 
 
@@ -130,15 +143,20 @@ public class MapPresenter implements MapInterface.Presenter {
 
             @Override
             public void onFailure(Call<List<locais>> call, Throwable t) {
-             //   Toast.makeText(view.this, "Falha ao Buscar os dados", Toast.LENGTH_SHORT).show();
+                  Toast.makeText(activity, "Falha ao Buscar os dados", Toast.LENGTH_SHORT).show();
 
             }
         });
 
 
-
     }
 
+    /**
+     * metodo responsavel por exibir as rotas no mapa.
+     *
+     * @param BancoAdapter
+     * @param map
+     */
     @Override
     public void DesenhaRotas(List<locais> BancoAdapter, final GoogleMap map) {
         LatLng latLngPrimeira = null;
@@ -153,7 +171,6 @@ public class MapPresenter implements MapInterface.Presenter {
                     latLngPrimeira = new LatLng(BancoAdapter.get(0).getLatitude(), BancoAdapter.get(0).getLongitude());// recuperando a primeira posição da lista
                     LatLng mOrigem = new LatLng(BancoAdapter.get(i).getLatitude(), BancoAdapter.get(i).getLongitude()); // recuperando novamente a primeira para exibila
                     LatLng mDestino = new LatLng(BancoAdapter.get(j).getLatitude(), BancoAdapter.get(j).getLongitude());//neste caso sempre sera exibido uma posicao a frente pra desenhar a rota
-//                    latLngs.add(mOrigem); // todas as localizações dao adicionadas em uma lista
                     map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngPrimeira, 8.0f));
 
 
@@ -197,7 +214,6 @@ public class MapPresenter implements MapInterface.Presenter {
                                             duracao = leg.getDuration();// tempo do percurso
                                             map.addPolyline(DirectionConverter.createPolyline(activity, directionPositionList, 5, Color.parseColor(color)));
                                         }
-                                        Log.d("KM", "onDirectionSuccess: "+quilometragem);
 
 
                                     }
@@ -207,22 +223,23 @@ public class MapPresenter implements MapInterface.Presenter {
                                 @Override
                                 public void onDirectionFailure(Throwable t) {
 
-                                    Log.d("Falha", "onDirectionFailure: " + t.getMessage());
-
+                                    Toast.makeText(activity, "Falha a Exibir rotas", Toast.LENGTH_SHORT).show();
                                 }
                             });
                 }
             }
 
 
-
-
-
-
         }
 
     }
 
+    /**
+     * metodo responsavel por calcular a quilometragem percorrida pela rota
+     *
+     * @param leg
+     * @return
+     */
     @Override
     public double calculaPercurso(Leg leg) {
         distancia = leg.getDistance();
@@ -233,72 +250,92 @@ public class MapPresenter implements MapInterface.Presenter {
         return dis;
     }
 
+
+    /**
+     * TASK 2
+     * metodo responsavel por realizar uma busca Por data na Api
+     *
+     * @param data
+     * @param googleMap
+     * @param BancoAdapter
+     */
     @Override
     public void BuscaDadosData(final String data, final GoogleMap googleMap, final List<locais> BancoAdapter) {
 
         boolean verifica = preferencias.getexibir();
-        if(!verifica){
+
+        if (!verifica) { // Caso seja falso a busca esta sendo feita por data
+            // agora se for verdadeiro a busca esta sendo feita normal.
             googleMap.clear();
             LimpaAll(BancoAdapter);
-            preferencias.salvarDados(true);
+            preferencias.salvarDados(false);
         }
 
         preferencias.salvarDados(true);
 
+        // fazendo a busca dos dados na api
         LocaisInterface anInterface = LocaisInterface.retrofit.create(LocaisInterface.class);
 
         Call<List<locais>> request = anInterface.buscaData(data);
         request.enqueue(new Callback<List<locais>>() {
             @Override
             public void onResponse(Call<List<locais>> call, Response<List<locais>> response) {
-
+                /**
+                 * fazendo o tratamento dos dados pois nao foi possivel
+                 * receber somente a data passada da api.
+                 * foi feito um tratamento para que so a data pesquisada seja exibida
+                 * e exibir as rotas daquela data . buscando no servidor , salvando local, e as listando
+                 */
                 if (response.isSuccessful()) {
 
-                    List<locais> dadosLocais = locais.listAll(locais.class);
-                    for (locais a : response.body()) {
+                    List<locais> dadosLocais = locais.buscaBD(); // fazendo o select no banco de dados
+                    if (!response.body().isEmpty()) {
 
-                        boolean flag = false;
-                        locais l = null;
-                        Log.d("data", "onResponse: " + a.getData());
-                        String quebraData = a.getData();
-                        String[] dat = quebraData.split("T");
-                        String dataCorreta = dat[0];
+                        for (locais a : response.body()) {
+
+                            boolean flag = false;
+                            locais l = null;
+                            Log.d("data", "onResponse: " + a.getData());
+                            String quebraData = a.getData();
+                            String[] dat = quebraData.split("T");
+                            String dataCorreta = dat[0];
 
 
-                        if (dadosLocais.size() == 0) {
-                            if (dataCorreta.equals(data)) {
-                                a.save();
+                            if (dadosLocais.size() == 0) {
+                                if (dataCorreta.equals(data)) {
+                                    a.save();
+                                } else {
+                                    Toast.makeText(activity, "Não Existem Dados para essa data !!", Toast.LENGTH_SHORT).show();
+                                }
                             }
+
+                            for (locais bb : dadosLocais) {
+
+                                if (a.equals(bb)) {
+                                    flag = true;
+                                }
+                                l = bb;
+
+
+                            }
+                            // foi utilizado um flag para salvar a vaga
+                            if (l != null) {
+
+                                if (!flag && dataCorreta.equals(data)) {
+                                    a.save();
+                                }
+                            }
+
                         }
 
-                        for (locais bb : dadosLocais) {
 
-                            if (a.equals(bb)) {
-                                flag = true;
-                            }
-                            l = bb;
-
-
-                        }
-                        if (l != null) {
-
-                            if (!flag && dataCorreta.equals(data)) {
-                                a.save();
-                            }
-                        }
+                        List<locais> l = locais.buscaBD(); // fazendo a busca no Bd
+                        DesenhaRotas(l, googleMap); // desenhando as rotas
+                        fechaFiltro(viewFiltro, fabFiltro); // fechando o filtro
 
                     }
 
-                  //  BancoAdapter = locais.listAll(locais.class); buscar e chamar rota
-                   // Log.d("tamanho meu bem", "onResponse: " + BancoAdapter.size());
-                  //  progressDoalog.cancel();
-                    List<locais>l = locais.buscaBD();
-                    DesenhaRotas(l,googleMap);
-
-                    fechaFiltro(viewFiltro, fabFiltro);
-
                 }
-
             }
 
 
@@ -325,16 +362,6 @@ public class MapPresenter implements MapInterface.Presenter {
         locais.deleteAll(locais.class);
         locaisList.clear();
 
-    }
-
-    public ProgressDialog ProgressDialogRequest() {
-        ProgressDialog progressDoalog;
-        progressDoalog = new ProgressDialog(activity);
-        progressDoalog.setIndeterminate(true);
-        progressDoalog.setMessage("Aguarde .....");
-        progressDoalog.setTitle("Buscando Dados Atualizados");
-        progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-       return progressDoalog;
     }
 
     @Override
