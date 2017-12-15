@@ -30,6 +30,11 @@ public class locais extends SugarRecord {
     public locais() {
     }
 
+    public locais(String data, double latitude, double longitude) {
+        this.data = data;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 
     public String getData() {
         return data;
