@@ -21,20 +21,15 @@ public class MenuActivity extends AppCompatActivity {
     @BindColor(R.color.preto)
     int corPreta;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         MenuActivityPermissionsDispatcher.PermissoesWithCheck(MenuActivity.this); // verifica permissoes
-
-        TextView mTextMessage = findViewById(R.id.message);
-        mTextMessage.setTextColor(corPreta);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
     }
-
     //region Bottomnavigation
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -50,8 +45,8 @@ public class MenuActivity extends AppCompatActivity {
             return false;
         }
     };
-    //endregion
 
+    //endregion
 
     //region Permissoes
     @NeedsPermission({Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})

@@ -1,10 +1,8 @@
 package com.developer.allef.desafiotracknme.Presenter;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -143,7 +141,7 @@ public class MapPresenter implements MapInterface.Presenter {
 
             @Override
             public void onFailure(Call<List<locais>> call, Throwable t) {
-                  Toast.makeText(activity, "Falha ao Buscar os dados", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, "Falha ao Buscar os dados", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -295,7 +293,6 @@ public class MapPresenter implements MapInterface.Presenter {
 
                             boolean flag = false;
                             locais l = null;
-                            Log.d("data", "onResponse: " + a.getData());
                             String quebraData = a.getData();
                             String[] dat = quebraData.split("T");
                             String dataCorreta = dat[0];
@@ -305,7 +302,7 @@ public class MapPresenter implements MapInterface.Presenter {
                                 if (dataCorreta.equals(data)) {
                                     a.save();
                                 } else {
-                                    Toast.makeText(activity, "Não Existem Dados para essa data !!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(activity, "Não existem dados para ser exibidos na data pesquisada !!", Toast.LENGTH_SHORT).show();
                                 }
                             }
 
@@ -341,13 +338,19 @@ public class MapPresenter implements MapInterface.Presenter {
 
             @Override
             public void onFailure(Call<List<locais>> call, Throwable t) {
-                Log.d("Allef", "result" + t.getMessage());
+
             }
         });
 
 
     }
 
+    /**
+     * metodo responsavel por fechar o filtro que sobre poe a view
+     *
+     * @param v
+     * @param floatbu
+     */
     @Override
     public void fechaFiltro(View v, FloatingActionButton floatbu) {
         Revealator.unreveal(v)
@@ -357,13 +360,26 @@ public class MapPresenter implements MapInterface.Presenter {
 
     }
 
+    /**
+     * metodo responsavel por limpar o adapter do banco que no
+     * caso é uma lista de locais
+     * e por fazer um DELETE no banco utilizando Sugar Orm
+     *
+     * @param locaisList
+     */
     @Override
     public void LimpaAll(List<locais> locaisList) {
-        locais.deleteAll(locais.class);
-        locaisList.clear();
+        locais.deleteAll(locais.class); // Apagando os dados do banco
+        locaisList.clear(); // limpando o adapterdo banco
 
     }
 
+    /**
+     * metodo responsavel por exibir o filtro sobre a view
+     *
+     * @param theAwesomeView
+     * @param fab
+     */
     @Override
     public void abrirFiltro(View theAwesomeView, FloatingActionButton fab) {
         Revealator.reveal(theAwesomeView)

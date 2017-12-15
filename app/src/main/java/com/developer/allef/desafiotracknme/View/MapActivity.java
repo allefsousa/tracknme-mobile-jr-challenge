@@ -1,14 +1,9 @@
 package com.developer.allef.desafiotracknme.View;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -26,13 +21,9 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.jaouan.revealator.Revealator;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindString;
-import butterknife.ButterKnife;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, MapInterface.View {
 
@@ -85,7 +76,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mapPresenter.abrirFiltro(theAwesomeView,fab);
+                mapPresenter.abrirFiltro(theAwesomeView, fab);
             }
         });
 
@@ -212,7 +203,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      */
     @Override
     public boolean onSupportNavigateUp() {
-        Log.d("BancoAdapter", "onSupportNavigateUp: " + BancoAdapter.size());
+
         if (theAwesomeView.isShown() && !pesquisaSwitch.isChecked()) {
             pesquisaSwitch.setChecked(false);
             //  RequestAllLocais();
